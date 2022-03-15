@@ -59,7 +59,7 @@ Currently, we only support `local` and `s3`
 
 **Exporters**
 
-Each exporter defines the query that will pull the desired data out of Loki
+Each exporter defines the query that will pull the desired data from Loki
 - `active`: If this exporter can be used or not. Having `"active": false` exporters gives you the opportunity to preconfigure exporters that are not in Loki yet.
 - `query`: This is simply the LogQL query to fetch the required data from Loki
 - `time_start`: The start date to use in the query. This start time is only used at the very 
