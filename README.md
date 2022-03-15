@@ -106,7 +106,8 @@ python path/to/repository/main.py
 
 #### Running as a docker container
 When you run it as a container, you need to bind-mount at least a configuration directory.
-Also, when you opt for export to local storage, you need to provide the backup directory
+Also, when you opt for export to local storage, you need to provide the backup directory.
+The below example assumes that you all relevant directories are located within `loki-backup`.
 ```
 docker run --env-file .env --rm --net=host --mount type=bind,source="$(pwd)"/loki-backup/conf,target=/app/conf --mount type=bind,source="$(pwd)"/loki-backup/loki_export,target=/app/loki_export --name loki-exporter unfoldingword/loki-exporter
 ```
