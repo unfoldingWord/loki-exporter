@@ -1,0 +1,14 @@
+# Misc
+conf/*
+lab/
+loki_export/
+
+# IDEs
+.idea
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+
