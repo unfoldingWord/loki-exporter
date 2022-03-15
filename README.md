@@ -77,7 +77,7 @@ For easy testing and/or deployment, use the following docker containers:
 - [graphiteapp/graphite-statsd](https://hub.docker.com/r/graphiteapp/graphite-statsd)
 - [grafana/loki](https://hub.docker.com/r/grafana/loki)
 
-Depending on your configuration, you might also need to setup a bucket in S3 with the correct permissions. 
+Depending on your configuration, you might also need to create a bucket in S3 with the correct permissions. 
 
 ### Installing
 
