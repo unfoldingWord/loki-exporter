@@ -24,8 +24,7 @@ class LokiExporter:
             log_level = logging.INFO
 
         logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        logger = logging.getLogger("global")
-        self.logger = logger.getChild("loki-export-logger")
+        self.logger = logging.getLogger("global").getChild("loki-export-logger")
         self.logger.setLevel(log_level)
 
         # Configuration
