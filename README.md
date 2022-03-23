@@ -17,6 +17,7 @@ which is in JSON format.
   "graphite_prefix": "loki.backup",
   "max_lines_per_query": 5000,
   "max_days_per_exporter": 100,
+  "export_holdoff_days": 1,
   "storage": {
     "local": {
       "filepath": "loki_export"
@@ -46,7 +47,8 @@ which is in JSON format.
 - `graphite_host`: the URL that Graphite can be reached on. Graphite is used for storing metrics.
 - `graphite_prefix`: the prefix for all Graphite metrics
 - `max_lines_per_query`: How many lines we pull in per query. 5000 seems to be the max for Loki.
-- `max_days_per_exporter`: For each run, how many days we will import per exporter. 
+- `max_days_per_exporter`: For each run, how many days we will import per exporter.
+- `export_holdoff_days`: Logs are being backed up till `TODAY 00:00:00 - export_holdoff_days`
 
 **Storage settings**
 

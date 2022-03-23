@@ -217,6 +217,19 @@ class LokiExporter:
                 self.inc_metric("lines-written.s3", len(lst_logs[0]["values"]))
                 os.remove(tmp_file)
 
+    def __calculate_holdoff_timestamp(self):
+        # Determining the amount of holdoff days
+        holdoff_days = 0
+        if self.config["export_holdoff_days"]:
+            holdoff_days = int(self.config["export_holdoff_days"])
+
+        # Create timestamp for today at 00:00:00
+        ts_today = int(datetime.datetime.combine(datetime.date.today(), datetime.time()).timestamp())
+
+        # Calculate holdoff timestamp
+        ts_holdoff = str(ts_today - (holdoff_days * 86400)) + "000000000"
+        return ts_holdoff
+
     def run(self):
         tracemalloc.start()
         time_start = time.perf_counter()
@@ -232,9 +245,7 @@ class LokiExporter:
                 export_format = item["format"]
                 key = re.sub(r"([{}\"])|[^a-z]", lambda m: "" if m.group(1) else "_", item["query"])
 
-                # Create timestamp for today at 00:00:00
-                ts_today = datetime.datetime.combine(datetime.date.today(), datetime.time()).timestamp()
-                ts_today = str(int(ts_today)) + "000000000"
+                ts_holdoff = self.__calculate_holdoff_timestamp()
 
                 # Try to fetch the start time from the state file
                 state_time = self.get_state(key)
@@ -249,7 +260,7 @@ class LokiExporter:
                 # We fetch the logs per day
                 # If start_time in current day, then stop (we only export through 'yesterday')
                 day_counter = 0
-                while ts_start < ts_today:
+                while ts_start < ts_holdoff:
                     # Maximum number of days per run (to keep Loki memory in check)
                     day_counter += 1
                     if not max_days == 0:
