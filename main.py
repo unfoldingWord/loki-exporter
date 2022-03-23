@@ -184,8 +184,9 @@ class LokiExporter:
 
         # Save the file to all designated output locations
         file_path = key + "/" + str(obj_day.year) + "/" + str(obj_day.month).zfill(2)
+        # We can have multiple files per day, they are numbered using the iteration variable.
         file_name = key + "-" + str(obj_day.year) + str(obj_day.month).zfill(2) + str(obj_day.day).zfill(2) + \
-            "." + str(iteration).zfill(3) + ".log.gz"
+            "." + str(iteration).zfill(4) + ".log.gz"
 
         if "local" in self.config["storage"]:
             local_export_path = self.config["storage"]["local"]["filepath"]
