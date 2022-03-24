@@ -156,6 +156,8 @@ class LokiExporter:
 
             lst_formatted.append(date + "\t" + msg)
 
+        self.logger.debug("Formatted list contains {0} lines".format(len(lst_formatted)))
+
         return "\n".join(lst_formatted)
 
     def format_logs_to_json(self, lst_logs):
@@ -265,7 +267,7 @@ class LokiExporter:
                     # Maximum number of days per run (to keep Loki memory in check)
                     day_counter += 1
                     if not max_days == 0:
-                        if day_counter >= max_days:
+                        if day_counter > max_days:
                             break
 
                     # Initial batch
@@ -275,6 +277,7 @@ class LokiExporter:
                     if len(lst_logs) > 0:
 
                         batch_size = len(lst_logs[0]["values"])
+                        self.logger.debug("Size of batch is {0}".format(batch_size))
 
                         while batch_size == max_lines:
                             # If size of returned log lines is equal to max lines, it can be assumed that
@@ -300,6 +303,9 @@ class LokiExporter:
                         # Export the tail end of logs
                         if len(lst_logs) > 0:
                             self.export_logs(lst_logs, export_format, key, ts_start, batch_nr)
+                            self.logger.debug("Size of final batch is {0}".format(len(lst_logs[0]["values"])))
+
+                        self.logger.debug("Amount of batches: {0}".format(batch_nr))
 
                         self.inc_metric("batches-sent", batch_nr)
 
