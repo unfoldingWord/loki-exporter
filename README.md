@@ -85,7 +85,7 @@ Depending on your configuration, you might also need to create a bucket in S3 wi
 
 - Clone this repository
 ```
-git clone git@github.com:unfoldingWord-dev/loki-exporter
+git clone git@github.com:unfoldingWord/loki-exporter
 cd 
 pip install -r requirements.txt
 ```
