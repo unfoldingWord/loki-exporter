@@ -132,7 +132,7 @@ class LokiExporter:
         url = loki_host + "/loki/api/v1/query_range?query=" + query + "&start=" + ts_start + "&end=" + ts_end + \
             "&direction=forward" + limit
         # print(url)
-        result = requests.get(url)
+        result = requests.get(url, verify=False)
         dict_results = result.json()
 
         if dict_results["status"] == "success":
