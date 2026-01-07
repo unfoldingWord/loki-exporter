@@ -58,7 +58,7 @@ class LokiExporter:
         for x in range(0, try_times):
             try:
                 self.__logger.debug(f"Verifying Loki connection")
-                response = requests.get(url).content.decode('utf-8').strip()
+                response = requests.get(url, verify=self.__config['requests_ca_bundle']).content.decode('utf-8').strip()
                 if response == 'ready':
                     self.__logger.info("Loki is ready")
                     return True
@@ -178,7 +178,7 @@ class LokiExporter:
             "&direction=forward" + limit
 
         self.__logger.debug(f'URL: {url}')
-        result = requests.get(url)
+        result = requests.get(url, verify=self.__config['requests_ca_bundle'])
         dict_results = result.json()
 
         if dict_results["status"] == "success":
