@@ -139,8 +139,8 @@ class LokiExporter:
         return self.__dict_metrics
 
     def __send_metrics(self):
-        graphite_host = self.__config["graphite_host"]
-        graphite_prefix = self.__config["graphite_prefix"]
+        graphite_host = self.__config['graphite']['host']
+        graphite_prefix = self.__config['graphite']['prefix']
 
         graphyte.init(graphite_host, prefix=graphite_prefix)
 
