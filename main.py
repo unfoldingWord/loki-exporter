@@ -283,7 +283,16 @@ class LokiExporter:
         ts_holdoff = str(ts_today - (holdoff_days * 86400)) + "000000000"
         return ts_holdoff
 
+    def __healthcheck(self, state):
+        if 'healthchecks' in self.__config:
+            if state in self.__config["healthchecks"]:
+                hc_url = self.__config["healthchecks"][state]
+                requests.get(hc_url)
+
     def run(self):
+        # Healthchecks
+        self.__healthcheck('start')
+
         tracemalloc.start()
         time_start = time.perf_counter()
 
@@ -367,6 +376,7 @@ class LokiExporter:
                         self.__inc_metric("batches-sent", batch_nr)
 
                     else:
+                        self.__set_metric("batches-sent", 0)
                         self.__logger.debug("Nothing to export. No logs for this day found.")
 
                     # store last timestamp
@@ -390,8 +400,8 @@ class LokiExporter:
 
         # Send metrics about this job
         if self.__config['stage'] != 'dev':
-            pass
-            # self.__send_metrics()
+            self.__send_metrics()
+            self.__healthcheck('success')
 
 
 obj_exporter = LokiExporter()
